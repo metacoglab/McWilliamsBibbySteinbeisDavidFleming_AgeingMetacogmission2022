@@ -209,12 +209,12 @@ for domain = 1:2
 if domain ==1  % choose the cognitive domain
     eff_6groups_HDI = mem_6groups_eff.HDI_x6;
     eff_6groups_mu  = mem_6groups_eff.mu_x6;
-    figure(11)
+    figure(21)
 
 else
     eff_6groups_HDI = perc_6groups_eff.HDI_x6;
     eff_6groups_mu  = perc_6groups_eff.mu_x6;
-    figure(12)
+    figure(22)
 end
 
 set(gcf, 'Position', [800 300 350 290]); % 
@@ -268,7 +268,7 @@ if  domain == 1
     fig_filename = 'Figure2Ai'; 
     savefig (gcf,fig_filename) 
     saveas(gcf,fig_filename, 'pdf') 
-    clear fig_filename
+    clear fig_filename    
 
 else
     fig_filename = 'Figure2Aii'; 
@@ -278,12 +278,10 @@ else
 end
 end
 
- %%% TO HERE
-
 %% Plotting betas with HDIs
 % Figure 2B
 
-figure (13)
+figure (23)
 hold on
 
 mem_beta_hdi = mem_HRegression.beta_hdi;
@@ -314,7 +312,7 @@ x_ticks =  [1.15,2.15, 3.15, 4.15];
  y_label =  'sampled regression betas';
 x_ticklabels = {'age','age squared','difficulty mean','difficulty std'};
 
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 12);
 xlabel (x_label)
 ylabel (y_label)
 xlim (x_limits)
@@ -323,10 +321,10 @@ xticks(x_ticks)
 yticks(y_ticks)
 xticklabels(x_ticklabels) 
 
-yline (0)
+yline (0);
 % legend([mem_lines perc_lines],{'memory','perception'},'Location','northeast')
 
-file_name = 'Figure2B_RHMetaD_betas';
+file_name = 'Figure2B_RHMetaD';
 savefig (gcf, file_name);
 saveas (gcf, file_name, 'pdf');
 clear file_name
@@ -468,7 +466,7 @@ xtickangle(35)
 y_limits = [-0.5, 1];
 y_ticks = [-0.4 -0.2, 0 0.2 0.4 0.6 0.8 1];
 y_ticklabels = [-0.4 -0.2, 0 0.2 0.4 0.6 0.8 1];
-yline(0, 'LineWidth', 1)
+yline(0, 'LineWidth', 1);
 
 xlim(x_limits)
 ylim(y_limits) 
