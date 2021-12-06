@@ -45,9 +45,8 @@ col = [[230, 10, 0]/255;... %Red
     figure(44) 
     y_var = partics.PostPerc; 
  end
-end
 
-if jj >4 % then the 4 plots of difficulty staircase level
+    elseif jj >4 % then the 4 plots of difficulty staircase level
  if jj == 5
     fig_filename = 'Fig4BAi_mem_pre_on_diff';
     glm_filename = 'glm_Fig4Bi';
@@ -55,6 +54,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(45) 
     x_var = memory_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,12];
+    x_ticks = 0:2:12;
+    x_ticklabels = x_ticks;
     y_var = partics.PreMem; 
  elseif jj == 6 
     fig_filename = 'Fig4Bii_mem_post_on_diff';
@@ -63,6 +64,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(46) 
     x_var = memory_variables.difflevel; 
     x_limits = [0,12];
+    x_ticks = 0:2:12;
+    x_ticklabels = x_ticks;
     y_var = partics.PostMem; 
  elseif jj == 7 
     fig_filename = 'Fig4Biii_perc_pre_on_diff';
@@ -71,7 +74,9 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(47) 
     x_var = perception_variables.difflevel;
     x_limits = [0,15];
-     y_var = partics.PrePerc; 
+    x_ticks= [0;2;4;6;8;10;12;14];
+    x_ticklabels = x_ticks;
+    y_var = partics.PrePerc; 
  elseif jj == 8 
     fig_filename = 'Fig4Biv_perc_post_on_diff';
     glm_filename = 'glm_Fig4Biv';
@@ -79,6 +84,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(48) 
     x_var = perception_variables.difflevel; 
     x_limits = [0,15];
+    x_ticks= [0;2;4;6;8;10;12;14];
+    x_ticklabels = x_ticks;
     y_var = partics.PostPerc; 
  elseif jj == 9
     fig_filename = 'Globalnotplotted_mem_update_on_age';
@@ -87,6 +94,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(51) 
     x_var = age_single; 
     x_limits = [17.8 85];
+    x_ticks = 20:10:80;
+    x_ticklabels = x_ticks;
     y_var = partics.PostMem-partics.PreMem; 
     y_limits = [-10,10];
  elseif jj == 10
@@ -96,6 +105,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(52) 
     x_var = age_single; 
     x_limits = [17.8 85];
+    x_ticks = 20:10:80;
+    x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc;    
     y_limits = [-10,10];
  elseif jj == 11
@@ -105,6 +116,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(53) 
     x_var = memory_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,12];
+    x_ticks = 0:2:12;
+    x_ticklabels = x_ticks;
     y_var = partics.PostMem-partics.PreMem; 
     y_limits = [-10,10];
  elseif jj == 12
@@ -114,6 +127,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(54) 
     x_var = perception_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,15];
+    x_ticks= [0;2;4;6;8;10;12;14];
+    x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
     y_limits = [-10,10];
  elseif jj == 13
@@ -123,6 +138,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(55) 
     x_var = (partics.PostMem+partics.PreMem)/2;
     x_limits = [0,12];
+    x_ticks = 0:2:12;
+    x_ticklabels = x_ticks;
     y_var = (partics.PostPerc+partics.PrePerc)/2; 
     y_limits = [0,12];
  elseif jj == 14
@@ -132,6 +149,8 @@ if jj >4 % then the 4 plots of difficulty staircase level
     figure(56) 
     x_var = partics.PostMem-partics.PreMem; 
     x_limits = [-10,10];
+    x_ticks = -10:5:10;
+    x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
     y_limits = [-10,10];
  else
@@ -212,7 +231,12 @@ axh.XTickLabel = x_ticklabels;
 axh.YRuler.TickLabelGapOffset = -1;
 % set(axh,'LooseInset',get(axh,'TightInset'));
 
+% Angle the tick labels when age groups are on the tick labels
+if ismember(jj,[1:4,9,10])==1
 xtickangle(45)
+else
+end
+
 xlim(x_limits)
 ylim(y_limits)
 
