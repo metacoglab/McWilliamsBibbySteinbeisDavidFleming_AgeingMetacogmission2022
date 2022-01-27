@@ -1,10 +1,11 @@
 %% participant_characteristics
 % Participant demographics analysis for McWilliams et al, 2022
 % produces breakdown of participant characteristics shown in Table 1, and
-% puts the means of eahc age group into a standalone vector for use in
+% puts the means of each age group into a standalone vector for use in
 % later plotting
 
-partics=Partics_and_globals; % get demographics data
+load ParticDemogs_and_globals % get demographics data
+partics=Partics_and_globals; % and rename it
 
 age_single = partics.age_single';
 age_group = partics.age_group';
@@ -28,13 +29,10 @@ Demogs_by_age_group.chi2stats.tbl = tbl;
 Demogs_by_age_group.chi2stats.chi2 = chi2;
 Demogs_by_age_group.chi2stats.p = p;
 
-save ('age_sex_breakdown','Demogs_by_age_group')
-
 % Take mean ages for use in plots in other scripts
 age_groupmeans = Demogs_by_age_group.mean_age;
-save ('age_means_by_group', 'age_groupmeans')
 
-clear Demogs_by_age_group
 clear tbl
 clear chi2
 clear p
+clear partics
