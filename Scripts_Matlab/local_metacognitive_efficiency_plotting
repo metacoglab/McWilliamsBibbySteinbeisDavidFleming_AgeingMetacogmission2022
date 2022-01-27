@@ -1,0 +1,370 @@
+%% local_metacognitive_efficiency_plotting
+
+% This script takes outputs from the hierchical Bayesain estimates of group metacognitive ratings for local
+% confidence, and regressions using the Hierachical model
+% in the manuscript, and plots these for Figure 2 and Figure 1C
+
+% The first section of this script loads the outputs from the hierarchical
+% analyses and plots these. The second (optional) section generates the
+% outputs de novo, creating those which you loaded to so the plots.
+
+load ParticDemogs_and_globals % get demographics data
+load local_efficiency_fits
+
+partics=Partics_and_globals; % and rename it
+age_single = partics.age_single;
+age_group = partics.age_group;
+
+%% First group local metacognitive efficiencies with each age group with HDIs, for memory and then for
+% perception
+% Figure 2A
+load local_efficiency_fits
+load age_means_by_group
+
+% Get colour scheme
+col = [[230, 10, 0]/255;... %Red
+    [51, 140, 255]/255;... %Blue
+    [60,179,113]/255;...%Green
+    [255, 204, 204]/255;...%Light Red
+    [100, 220, 255] / 255;...%Light Blue
+    [152,251,152]/255;... %Light Green
+    [85,107,47]/255];%Deep Green
+
+for domain = 1:2
+if domain ==1  % choose the cognitive domain
+    eff_6groups_HDI = mem_6groups_eff.HDI_x6;
+    eff_6groups_mu  = mem_6groups_eff.mu_x6;
+    figure(21)
+
+else
+    eff_6groups_HDI = perc_6groups_eff.HDI_x6;
+    eff_6groups_mu  = perc_6groups_eff.mu_x6;
+    figure(22)
+end
+
+set(gcf, 'Position', [800 300 350 290]); % 
+
+hold('on');
+hold('all');
+% Plot HDIs for each of the 6 age groups
+for kk = 1:6
+line ([age_groupmeans(kk), age_groupmeans(kk)],[eff_6groups_HDI(kk,1), eff_6groups_HDI(kk,2)], 'Color',col(domain+3,:),'LineWidth',3);
+end
+clear kk 
+
+hold on
+% Plot mean estimates
+hscat = scatter (age_groupmeans, eff_6groups_mu, 60, 'MarkerEdgeColor', col(domain, :),'MarkerFaceColor', col(domain, :));
+hline = line (age_groupmeans, eff_6groups_mu, 'Color', col(domain, :), 'LineWidth',3);
+hold on
+   
+%% Set axes
+axh = gca;
+axh.FontSize = 14;
+axh.FontName = 'Arial';
+x_label = 'age group (years)';
+x_limits = [17.8 74];
+x_ticks = age_groupmeans;
+x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
+
+y_label =  'metacognitive efficiency';
+if domain ==1
+    y_limits = [0.7, 1.4]; 
+    y_ticklabels = 0.7:0.1:1.4;
+else
+    y_limits = [0.3, 1]; 
+    y_ticklabels = 0.3:0.1:1;
+end
+
+xlabel(x_label, 'FontSize' , 14)
+ylabel(y_label, 'FontSize' , 14)
+xlim(x_limits)
+ylim(y_limits)
+axh.XTick = x_ticks;
+axh.XTickLabel = x_ticklabels;
+axh.YTick = y_ticklabels;
+xtickangle(45)
+% axh.YRuler.TickLabelGapOffset = 0; % 4; % move tick labels slightly 
+
+box off
+
+clear hline
+clear hscar
+clear axh
+
+% Optional code for saving figures
+if  domain == 1
+    fig_filename = 'Figure2Ai'; 
+    % savefig (gcf,fig_filename) 
+    % saveas(gcf,fig_filename, 'pdf') 
+    clear fig_filename    
+
+else
+    fig_filename = 'Figure2Aii'; 
+    % savefig (gcf,fig_filename) 
+    % saveas(gcf,fig_filename, 'pdf') 
+    clear fig_filename
+end
+end
+
+%% Next plot the doamins-generality for local metacognision using 6 age groups dervied from group_Corr
+
+load local_DGefficiency_fits
+figure(24) 
+set(gcf, 'Color',[1 1 1],'Position', [650 100 600 360]) 
+
+x_label = 'age group';
+x_limits = [17.8 75];
+x_ticks = age_groupmeans;
+x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
+xtickangle(35)
+x_label ='age group (years)';
+
+y_limits = [-0.5, 1];
+y_ticks = [-0.4 -0.2, 0 0.2 0.4 0.6 0.8 1];
+y_ticklabels = [-0.4 -0.2, 0 0.2 0.4 0.6 0.8 1];
+yline(0, 'LineWidth', 1);
+y_label ='sample correlation coefficient';
+
+xlim(x_limits)
+ylim(y_limits) 
+xlabel(x_label) 
+ylabel(y_label)
+
+clear axDG
+axDG = gca;
+axDG.FontSize = 14;
+axDG.FontName = 'Arial';
+axDG.XTick = x_ticks;
+axDG.YTick = y_ticks;
+axDG.XTickLabel = x_ticklabels;
+axDG.YTickLabel = y_ticklabels;
+axDG.YRuler.TickLabelGapOffset = 0;  % move tick labels slightly left or right
+
+box('off');
+hold('all');
+
+%% Scatter plot the data
+hold(axDG,'on');
+
+group_HDI = corr_estimates_byage.HDI;
+metric_group_means = corr_estimates_byage.rho;
+
+for kk = 1:6
+clear line_for_HDIs
+line_for_HDIs = line([age_groupmeans(kk),age_groupmeans(kk)],...
+    [group_HDI(kk,1),group_HDI(kk,2)]);
+    set(line_for_HDIs,'Color',col(3,:),'LineWidth',5)
+hold on
+end
+clear kk
+
+plot (age_groupmeans, metric_group_means, '-o',...
+    'color', col(7,:),...
+    'LineWidth',4,...
+    'MarkerSize',10,...
+    'MarkerEdgeColor',col(7,:),...
+    'MarkerFaceColor',col(7,:));
+clear axDG
+clear line_for_HDIs
+clear x_label 
+clear x_limits 
+clear x_ticks 
+clear x_ticklabels 
+clear y_limits 
+clear y_ticks 
+clear y_label
+clear y_ticklabels
+clear rho_mean
+
+%% Save
+fig_filename = 'Fig2C_effDG';
+% savefig (gcf,fig_filename) 
+% saveas(gcf,fig_filename, 'pdf') 
+clear fig_filename
+
+
+%% Next plot the outputs from the hierarchical regressions, with betas with HDIs
+% Figure 2B
+
+load HRegression_outputs
+
+mem_beta_hdi = mem_HRegression.beta_hdi;
+perc_beta_hdi = perc_HRegression.beta_hdi; 
+
+figure (23)
+hold on
+
+domain = 1; % first memory
+for kk = 1:4    
+mem_lines = line ([kk, kk ],[mem_beta_hdi(kk,1), mem_beta_hdi(kk,2)], 'Color',col(domain+3,:),'LineWidth',3);
+end
+clear kk 
+hold on
+scatter(1:4, [mem_HRegression.fit.mu_beta1,mem_HRegression.fit.mu_beta2,mem_HRegression.fit.mu_beta3,mem_HRegression.fit.mu_beta4], 60,'MarkerEdgeColor',col(domain,:), 'MarkerFaceColor',col(domain,:));
+
+domain = 2; % then perception
+for kk = 1:4
+    hold on
+ perc_lines = line ([kk+0.3, kk+0.3],[perc_beta_hdi(kk,1), perc_beta_hdi(kk,2)], 'Color',col(domain+3,:),'LineWidth',3);
+end
+clear kk 
+hold on
+scatter([1.3, 2.3, 3.3, 4.3], [perc_HRegression.fit.mu_beta1,perc_HRegression.fit.mu_beta2,perc_HRegression.fit.mu_beta3,perc_HRegression.fit.mu_beta4], 60,'MarkerEdgeColor',col(domain,:), 'MarkerFaceColor',col(domain,:));
+
+ x_limits = ([0.8 4.8]);
+ y_limits = ([-0.8, 0.85 ]);
+x_ticks =  [1.15,2.15, 3.15, 4.15];
+ y_ticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8];
+ x_label = 'covariate';
+ y_label =  'sampled regression betas';
+x_ticklabels = {'age','age squared','difficulty mean','difficulty std'};
+
+set(gca, 'FontSize', 12);
+xlabel (x_label)
+ylabel (y_label)
+xlim (x_limits)
+ylim (y_limits)
+xticks(x_ticks)
+yticks(y_ticks)
+xticklabels(x_ticklabels) 
+
+yline (0);
+% legend([mem_lines perc_lines],{'memory','perception'},'Location','northeast')
+
+file_name = 'Figure2B_RHMetaD';
+% savefig (gcf, file_name); % Save here if desired
+% saveas (gcf, file_name, 'pdf');
+clear file_name
+
+clear x_limits 
+clear y_limits
+clear x_ticks 
+clear y_ticks 
+clear x_label 
+clear y_label 
+clear x_ticklabels
+
+clear mem_lines
+clear perc_lines
+clear domain
+clear mem_beta_hdi
+clear perc_beta_hdi
+
+%% Finally, plot the d-primes against age for Figure 1C, 
+% now that the d-primes are available
+
+load ParticDemogs_and_globals % get demographics data
+partics=Partics_and_globals; % and rename it
+age_single = partics.age_single;
+age_group = partics.age_group;
+
+% Set the parameters and choose the domain
+  jj=1;
+  while jj <3
+x_var = age_single; % plots on age first
+x_limits = [17.8 85];
+x_ticks = age_groupmeans;
+x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
+
+ if jj == 1
+    fig_filename = 'Fig1Ci_mem_dprime_on_age';
+    domain = 1; % 1 for mem, 2 for perc
+    figure(13) 
+    y_var = fit_mem_all.d1; 
+    y_limits = [0,3.4];
+ elseif jj == 2 
+    fig_filename = 'Fig1Cii_perc_dprime_on_age';
+    domain = 2; 
+    figure(14) 
+    y_var = fit_perc_all.d1; 
+    y_limits = [0,3.4];
+end
+ 
+% Draw figure
+set(gcf, 'Position', [800 400 190 245],'Color',[1,1,1]);
+
+box('off');
+hold('all');
+
+%% Scatter plot the data
+scatter ( x_var, y_var, 12, 'MarkerEdgeColor', col(domain+3, :),'MarkerFaceColor', col(domain+3, :));
+hold on
+ 
+%% Add means for the 6 age groups
+for kk = 1:6
+y_group_means(kk) = mean (y_var(age_group==kk)); % mean of the metric within each age group
+y_group_std(kk) = std (y_var(age_group==kk));
+end
+clear kk
+
+plot (age_groupmeans, y_group_means, '-o',...
+    'color', col(domain,:),...
+    'LineWidth',4,...
+    'MarkerSize',8,...
+    'MarkerEdgeColor',col(domain,:),...
+    'MarkerFaceColor',col(domain,:));
+
+%% Add s.d.s for the 6 age groups
+for kk = 1:6
+    clear line_for_std
+line_for_std = line([age_groupmeans(kk),age_groupmeans(kk)],...
+    [y_group_means(kk)- y_group_std(kk),...
+    y_group_means(kk)+ y_group_std(kk)]);
+    set(line_for_std,'Color',col(domain,:),'LineWidth',4);
+hold on
+end
+clear kk
+
+%% Set axes
+axh = gca;
+axh.FontSize = 10;
+axh.FontName = 'Arial';
+axh.XTick = x_ticks;
+axh.XTickLabel = x_ticklabels;
+axh.YRuler.TickLabelGapOffset = -1;
+% set(axh,'LooseInset',get(axh,'TightInset'));
+
+x_label = 'age group (years)';
+y_label = 'd-prime';
+xtickangle(45)
+xlim(x_limits)
+ylim(y_limits)
+xlabel(x_label)
+ylabel(y_label)
+
+% Tighten up margins
+ tightInset = get(gca, 'TightInset');
+position(1) = tightInset(1);
+position(2) = tightInset(2);
+position(3) = 1 - tightInset(1) - tightInset(3);
+position(4) = 1 - tightInset(2) - tightInset(4);
+set(axh, 'Position', position);
+
+% now save the figure if wanted 
+    % savefig (gcf,fig_filename) 
+    % saveas(gcf,fig_filename, 'pdf') 
+    clear fig_filename
+jj = jj+1;
+  end
+clear jj
+
+clear axh
+clear domain
+clear hscat
+clear line_for_std
+clear metric_group_means
+clear tightInset
+clear x_label
+clear x_limits
+clear x_ticklabels
+clear x_ticks
+clear x_var
+clear y_group_std
+clear y_label
+clear y_var
+clear y_group_means
+clear position
+clear y_var
+clear y_limits
+clear age_groupmeans
