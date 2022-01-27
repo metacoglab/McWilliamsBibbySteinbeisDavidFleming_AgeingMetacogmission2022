@@ -3,14 +3,11 @@
 % dataset for analysis
 % Requires trials2counts
 
-%% Set working directory and choose folder
-% cd c:\myMATLABFiles % enter your directory name
-% currentFolder =  pwd; % enter your folder name
-% userpath ('D:\my_mfiles') % enter your directory name
-
 %% Get the raw data .mat files
-% Load .mat files of the raw data set (n=304) for memory (Raw_memory_Metacogmissiondata) and
-% perception (Raw_perception_Metacogmissiondata)
+% Load .mat files of the raw data set (n=304) for memory and perception
+load ParticDemogs_and_globals % 
+load Raw_data_memoryMetacogmission
+load Raw_data_perceptionMetacogmission
 
 for domain = 1:2; % The whole script runs twice to process the memory (1) and then perception (2) data 
 if domain ==1 
@@ -146,10 +143,16 @@ clear kk
     output_variables.number_trials_longer30_both = number_trials_longer30_both;
     output_variables.number_subjs_to_exclude = number_subjs_to_exclude;
     output_variables.trialcount = trialcount_per_subj;
-
+    
+    if domain ==1;
+        mem_output_variables = output_variables;
+    else
+        perc_output_variables = output_variables;
+    end
 %% Lastly, package confidence responses for use in analyses, by using trials2counts
 
-% Add in when repsonse was correct on left and whether they chose left
+% Variable for "response on left was the correct one" and "person chose
+% left"
 if domain == 1;
     correct_on_left = data_set.choiceleft == data_set.correctchoice;
     chose_left = data_set.choiceleft == data_set.action;
@@ -161,15 +164,11 @@ end
 %% First make up the nR_S1 and nR_S2 vectors 
 trials_nR_S1 = [];
 trials_nR_S2 = [];
-num_subj = 304;
-
-% The hierarachical meta-d' toolbox is located at https://github.com/metacoglab/HMeta-d
-% this contains information about using the function trials2counts
 
  %Bin the confidences
 confidence_binned = [];
 nbins=6; % number of bins for binned confidences
-for kk=1:num_subj% 
+for kk=1:numsubj% 
 confbins = quantile(data_set.confidence(data_set.cohort_ID==kk),nbins-1); % boundaries for a single subject for binning confidence into 6 groups
 confbins = [-Inf confbins Inf];
 for b = 1:length(confbins)-1
@@ -197,41 +196,17 @@ clear kk
 if domain == 1
     nR_S1_mem = trials_nR_S1;
     nR_S2_mem = trials_nR_S2;
+    data_set_mem = data_set;  
+    clear Raw_memory_data
 else
     nR_S1_perc = trials_nR_S1;
     nR_S2_perc = trials_nR_S2;
+    data_set_perc = data_set;
+    clear Raw_perception_data
 end
 
-clear trials_nR_S1
-clear trials_nR_S2
-
-%% Save everything, including the organised confidence ratings
-if domain == 1
-    % first the processed data
-    filename_data = 'processed_memoryMetacogmission.mat';
-    save(filename_data, 'data_set');
-    clear filename_data
-    % then the derived variables
-    memory_variables = output_variables;
-    save ('memory_outputs', 'memory_variables');
-    clear output_variables
-    
-    % finally the packaged ratings of trial-by-trial confidence
-    filename_trials= 'trials_mem';
-    save(filename_trials, 'nR_S1_mem', 'nR_S2_mem');
-    clear filename_trials
-    
-else
-    filename_data = 'processed_perceptionMetacogmission.mat';
-    save(filename_data, 'data_set');
-    clear filename_data
-    perception_variables = output_variables;
-    save ('perception_outputs', 'perception_variables');
-    clear output_variables
-    filename_trials= 'trials_perc';
-    save(filename_trials, 'nR_S1_perc', 'nR_S2_perc');
-    clear filename_trials
-end
+    clear trials_nR_S1
+    clear trials_nR_S2
 
     clear subj_correct_rate;
     clear difflevel;
@@ -246,6 +221,7 @@ end
     clear number_trials_longer30_both;
     clear number_subjs_to_exclude;
     clear trialcount_per_subj;
+    clear output_variables
     
     clear data_set
 
