@@ -1,6 +1,17 @@
 %% globals_analysis
 % This produces the plots in Figure 4, 
 % as well as the regressions and t-tests reported in the manuscript text
+% The final plots (Figures 51-6) are not drawn in the manusctipt, but are reported only
+% in the text, but are left here for interest
+
+load ParticDemogs_and_globals % get demographics data
+load age_means_by_group
+load outputs_memory
+load outputs_perception
+
+partics=Partics_and_globals; % and rename it
+age_single = partics.age_single;
+age_group = partics.age_group;
 
 % Get colour scheme
 col = [[230, 10, 0]/255;... %Red
@@ -13,6 +24,7 @@ col = [[230, 10, 0]/255;... %Red
 
 % Set the parameters and choose the domain
     y_limits = [0,11]; % y axis to plot globals on
+    y_label = 'confidence';
   jj=1;
   while jj <15
     if jj <5 % first the 4 plots with age groups indicated
@@ -20,9 +32,10 @@ col = [[230, 10, 0]/255;... %Red
     x_limits = [17.8 85];
     x_ticks = age_groupmeans;
     x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
+    x_label = 'age group (years)'; 
  if jj == 1
-    fig_filename = 'Fig4Ai_mem_pre_on_age';
-    glm_filename = 'glm_Fig4Ai';
+    fig_filename = 'Fig4Ai_mem_pre_on_age'; % File names if you with to save figures
+    glm_filename = 'glm_Fig4Ai'; % File names if you with to save glm outputs
     domain = 1; % 1 for mem, 2 for perc
     figure(41) 
     y_var = partics.PreMem; 
@@ -47,12 +60,13 @@ col = [[230, 10, 0]/255;... %Red
  end
 
     elseif jj >4 % then the 4 plots of difficulty staircase level
+    x_label = 'diffciulty level (a.u.)';
  if jj == 5
     fig_filename = 'Fig4BAi_mem_pre_on_diff';
     glm_filename = 'glm_Fig4Bi';
     domain = 1; % 1 for mem, 2 for perc
     figure(45) 
-    x_var = memory_variables.difflevel; % plots on staircase mean difficulty level
+    x_var = mem_output_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,12];
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
@@ -62,7 +76,7 @@ col = [[230, 10, 0]/255;... %Red
     glm_filename = 'glm_Fig4Bii';
     domain = 1; 
     figure(46) 
-    x_var = memory_variables.difflevel; 
+    x_var = mem_output_variables.difflevel; 
     x_limits = [0,12];
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
@@ -72,7 +86,7 @@ col = [[230, 10, 0]/255;... %Red
     glm_filename = 'glm_Fig4Biii';
     domain = 2; 
     figure(47) 
-    x_var = perception_variables.difflevel;
+    x_var = perc_output_variables.difflevel;
     x_limits = [0,15];
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
@@ -82,7 +96,7 @@ col = [[230, 10, 0]/255;... %Red
     glm_filename = 'glm_Fig4Biv';
     domain = 2; 
     figure(48) 
-    x_var = perception_variables.difflevel; 
+    x_var = perc_output_variables.difflevel; 
     x_limits = [0,15];
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
@@ -114,7 +128,7 @@ col = [[230, 10, 0]/255;... %Red
     glm_filename = 'glm_Globalnotplotted_mem_update_on_diff';
     domain = 1; % 1 for mem, 2 for perc
     figure(53) 
-    x_var = memory_variables.difflevel; % plots on staircase mean difficulty level
+    x_var = mem_output_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,12];
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
@@ -125,7 +139,7 @@ col = [[230, 10, 0]/255;... %Red
     glm_filename = 'glm_Globalnotplotted_perc_update_on_diff';
     domain = 2; 
     figure(54) 
-    x_var = perception_variables.difflevel; % plots on staircase mean difficulty level
+    x_var = perc_output_variables.difflevel; % plots on staircase mean difficulty level
     x_limits = [0,15];
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
@@ -158,7 +172,7 @@ col = [[230, 10, 0]/255;... %Red
 end
 
 % Draw figure
-set(gcf, 'Position', [800 400 190 245],'Color',[1,1,1]);
+set(gcf, 'Position', [800 400 240 245],'Color',[1,1,1]);
 
 box('off');
 hold('all');
@@ -207,13 +221,27 @@ plot(x_limits, fittedcurve, 'k', 'LineWidth', 2);
  
 hold('all');
 
-%% Saving
-glm_outputs.b = b(:);
-glm_outputs.sem = stats.se(:);
-glm_outputs.p = stats.p(:);
+% glm_outputs.b = b(:); % Option for use if saving
+% glm_outputs.sem = stats.se(:);
+% glm_outputs.p = stats.p(:);
 
-save (glm_filename,'glm_outputs')
-clear glm_filename
+% Now make text labels with betas and their p values
+if ismember(jj,[1:4])==1 % adjust loction on y-axis slightly according to the plot
+    dim = [.2 .13 .9 .3]; 
+elseif ismember(jj,[9,10])==1
+    dim = [.2 .08 .9 .3]; 
+else
+    dim = [.2 .05 .9 .3]; 
+end
+
+ if stats.p(2) >0.0001 
+    annotation('textbox',dim,'String',sprintf('b = %.2f \np = %.2g',b(2),stats.p(2)) ,'FitBoxToText','on');
+ else
+    annotation('textbox',dim,'String',sprintf('b = %.2f \np < 0.0001',b(2)) ,'FitBoxToText','on');
+ end
+
+% save (glm_filename,'glm_outputs')
+% clear glm_filename
 clear glm_outputs
 clear b
 clear dev
@@ -229,7 +257,7 @@ axh.FontName = 'Arial';
 axh.XTick = x_ticks;
 axh.XTickLabel = x_ticklabels;
 axh.YRuler.TickLabelGapOffset = -1;
-% set(axh,'LooseInset',get(axh,'TightInset'));
+%set(axh,'LooseInset',get(axh,'TightInset'));
 
 % Angle the tick labels when age groups are on the tick labels
 if ismember(jj,[1:4,9,10])==1
@@ -239,6 +267,8 @@ end
 
 xlim(x_limits)
 ylim(y_limits)
+xlabel(x_label)
+ylabel(y_label)
 
 % Tigthen up margins
  tightInset = get(gca, 'TightInset');
@@ -248,9 +278,8 @@ position(3) = 1 - tightInset(1) - tightInset(3);
 position(4) = 1 - tightInset(2) - tightInset(4);
 set(axh, 'Position', position);
 
-% now save the figure 
-    savefig (gcf,fig_filename) 
-    saveas(gcf,fig_filename, 'pdf') 
+%    savefig (gcf,fig_filename) % now save the figure if desired
+%    saveas(gcf,fig_filename, 'pdf') 
     clear fig_filename
     
 clear x_var
@@ -260,8 +289,29 @@ jj = jj+1;
   end
 clear jj
 
+clear axh
+clear cov
+clear dim
+clear domain
+clear fittedcurve
+clear glm_filename
+clear line_for_std
+clear polycoeffs
+clear tightInset
+clear x_label
+clear x_limits
+clear x_ticklabels
+clear x_ticks
+clear y_group_std
+clear y_label
+clear y_limits
+clear y_group_means
+
+%% Finally, the t-tests reported in the paper 
 % ttest comparing updates post-task to pre-task confidence within subjects
 [memory_t.h,memory_t.p,memory_t.ci,memory_t.stats] = ttest (partics.PreMem, partics.PostMem);
-save('memory_globalsupdate_ttest','memory_t')
+% save('memory_globalsupdate_ttest','memory_t')
 [perception_t.h,perception_t.p,perception_t.ci,perception_t.stats] = ttest (partics.PrePerc, partics.PostPerc);
-save('perception_globalsupdate_ttest','perception_t')
+% save('perception_globalsupdate_ttest','perception_t')
+clear memory_t
+clear perception_t
