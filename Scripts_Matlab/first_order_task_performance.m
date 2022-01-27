@@ -1,8 +1,8 @@
 %% first_order_task_performance
 % This draws the plots in Figure 1B and 1D 
 % (Figure 1C is not be plotted here as it requires the d-prime outputs from
-% the analyses of local metacognitive efficiency, so it undertaken in that
-% script)
+% the analyses of local metacognitive efficiency, so it undertaken in the
+% local efficiency script)
 
 % Get colour scheme
 col = [[230, 10, 0]/255;... %Red
@@ -12,6 +12,15 @@ col = [[230, 10, 0]/255;... %Red
     [100, 220, 255] / 255;...%Light Blue
     [152,251,152]/255;... %Light Green
     [85,107,47]/255];%Deep Green
+
+load ('ParticDemogs_and_globals.mat') % get demographics data
+load('age_means_by_group.mat')
+load('outputs_memory.mat')
+load('outputs_perception.mat')
+
+partics=Partics_and_globals; % and rename it
+age_single = partics.age_single;
+age_group = partics.age_group;
 
 % Set the parameters and choose the domain
   jj=1;
@@ -25,26 +34,30 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     fig_filename = 'Fig1Bi_diff_on_age';
     domain = 1; % 1 for mem, 2 for perc
     figure(11) 
-    y_var = memory_variables.difflevel; 
+    y_var = mem_output_variables.difflevel; 
     y_limits = [0,11];
+    y_label = 'difficulty level mean';
  elseif jj == 2 
     fig_filename = 'Fig1Di_diffstd_on_age';
     domain = 1; 
     figure(15) 
-    y_var = memory_variables.diffstd; 
+    y_var = mem_output_variables.diffstd; 
     y_limits = [0,6];
+    y_label = 'difficulty level st.d.';
  elseif jj == 3 
     fig_filename = 'Fig1Bii_diff_on_age';
     domain = 2; 
     figure(12) 
-     y_var = perception_variables.difflevel; 
+    y_var = perc_output_variables.difflevel; 
     y_limits = [0,15];
+    y_label = 'difficulty level mean';
  elseif jj == 4 
     fig_filename = 'Fig1Dii_diffstd_on_age';
     domain = 2; 
     figure(16) 
-    y_var = perception_variables.diffstd; 
+    y_var = perc_output_variables.diffstd; 
     y_limits = [0,6];
+    y_label = 'difficulty level st.d.';
  end
  
 % Draw figure
@@ -95,6 +108,10 @@ xtickangle(45)
 xlim(x_limits)
 ylim(y_limits)
 
+x_label = 'age group (years)';
+xlabel(x_label)
+ylabel(y_label)
+
 % Tighthen up margins
  tightInset = get(gca, 'TightInset');
 position(1) = tightInset(1);
@@ -102,11 +119,28 @@ position(2) = tightInset(2);
 position(3) = 1 - tightInset(1) - tightInset(3);
 position(4) = 1 - tightInset(2) - tightInset(4);
 set(axh, 'Position', position);
-
-% now save the figure 
-    savefig (gcf,fig_filename) 
-    saveas(gcf,fig_filename, 'pdf') 
+ 
+%    savefig (gcf,fig_filename) % Optional to save the figure 
+%    saveas(gcf,fig_filename, 'pdf') 
     clear fig_filename
 jj = jj+1;
   end
 clear jj
+
+clear axh
+clear domain
+clear line_for_std
+clear position
+clear tightInset
+clear x_label
+clear x_limits
+clear x_ticklabels
+clear x_ticks
+clear x_var
+clear y_group_std
+clear y_label
+clear y_var
+clear y_group_means
+clear y_var
+clear y_limits
+clear age_groupmeans
