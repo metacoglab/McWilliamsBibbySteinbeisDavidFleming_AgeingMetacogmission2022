@@ -41,7 +41,7 @@ while jj<3
     domain = 2; 
     figure(32) 
     y_var = perc_output_variables.bias; 
-    set(gcf, 'Position', [225 475 597 450],'Color',[1,1,1]);
+    set(gcf, 'Position', [200 20 597 450],'Color',[1,1,1]);
 end
 % Draw figure
 
@@ -168,7 +168,7 @@ clear axh
  y_var = perc_output_variables.bias; 
     
 % Draw figure
-set(gcf, 'Position', [250 450 597 450],'Color',[1,1,1]);
+set(gcf, 'Position', [850 500 597 450],'Color',[1,1,1]);
 
 box('off');
 hold('all');
@@ -177,7 +177,7 @@ hold('all');
 scatter ( x_var, y_var, 12, 'MarkerEdgeColor', col(domain+3, :),'MarkerFaceColor', col(domain+3, :));
 hold on
     
-% GLM fitting and Add regression curve if wanted
+% GLM fitting to add regression lines
 [b,dev,stats]= glmfit(normalize(x_var),normalize(y_var), 'normal');
 
 % Un-normalised version of glmfit for plots
@@ -212,12 +212,12 @@ ylim(y_limits)
 xlabel(x_label)
 ylabel(y_label)
 
-%% Saving
+%% Save glm outputs if you wish
 % glm_outputs.b = b(:);
 % glm_outputs.sem = stats.se(:);
 % glm_outputs.p = stats.p(:);
-
 % save (glm_filename,'glm_outputs')
+
 clear glm_filename
 clear glm_outputs
 clear cov
@@ -228,8 +228,7 @@ clear b_unnorm
 clear dev_unnorm
 clear stats_unnorm
 clear axh  
- % now save the figure if required
- % savefig (gcf,fig_filename) 
+ % savefig (gcf,fig_filename) % now save the figure if required
  % saveas(gcf,fig_filename, 'pdf') 
 clear fig_filename
     
@@ -260,6 +259,7 @@ end
     glm_filename = 'glm_Fig3C';
     domain = 3; 
     figure(34)
+    set(gcf, 'Position', [850 20 597 450],'Color',[1,1,1]);
     x_limits = [17.8 85];
     x_ticks = age_groupmeans;
     x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
