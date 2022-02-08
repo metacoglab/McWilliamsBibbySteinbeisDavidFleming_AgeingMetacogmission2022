@@ -1,4 +1,4 @@
-%% local_metacognitive_efficiency_plotting_Jan22
+%% local_metacognitive_efficiency_plotting
 % This script takes outputs from the hierchical Bayesain estimates of group metacognitive ratings for local
 % confidence, and regressions using the Hierachical model
 % in the manuscript, and plots these for Figure 2 and Figure 1C
