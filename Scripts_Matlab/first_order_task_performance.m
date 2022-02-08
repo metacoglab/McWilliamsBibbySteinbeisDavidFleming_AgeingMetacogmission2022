@@ -37,6 +37,9 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     y_var = mem_output_variables.difflevel; 
     y_limits = [0,11];
     y_label = 'difficulty level mean';
+    % Draw figure
+set(gcf, 'Position', [600 400 190 245],'Color',[1,1,1]);
+
  elseif jj == 2 
     fig_filename = 'Fig1Di_diffstd_on_age';
     domain = 1; 
@@ -44,6 +47,9 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     y_var = mem_output_variables.diffstd; 
     y_limits = [0,6];
     y_label = 'difficulty level st.d.';
+    % Draw figure
+set(gcf, 'Position', [800 400 190 245],'Color',[1,1,1]);
+
  elseif jj == 3 
     fig_filename = 'Fig1Bii_diff_on_age';
     domain = 2; 
@@ -51,6 +57,9 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     y_var = perc_output_variables.difflevel; 
     y_limits = [0,15];
     y_label = 'difficulty level mean';
+    % Draw figure
+set(gcf, 'Position', [1000 400 190 245],'Color',[1,1,1]);
+
  elseif jj == 4 
     fig_filename = 'Fig1Dii_diffstd_on_age';
     domain = 2; 
@@ -58,11 +67,11 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     y_var = perc_output_variables.diffstd; 
     y_limits = [0,6];
     y_label = 'difficulty level st.d.';
+    % Draw figure
+set(gcf, 'Position', [1200 400 190 245],'Color',[1,1,1]);
+
  end
  
-% Draw figure
-set(gcf, 'Position', [800 400 190 245],'Color',[1,1,1]);
-
 box('off');
 hold('all');
 
