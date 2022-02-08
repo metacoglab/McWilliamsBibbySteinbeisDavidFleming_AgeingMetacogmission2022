@@ -1,5 +1,4 @@
-%% local_metacognitive_efficiency_plotting
-
+%% local_metacognitive_efficiency_plotting_Jan22
 % This script takes outputs from the hierchical Bayesain estimates of group metacognitive ratings for local
 % confidence, and regressions using the Hierachical model
 % in the manuscript, and plots these for Figure 2 and Figure 1C
@@ -35,14 +34,13 @@ if domain ==1  % choose the cognitive domain
     eff_6groups_HDI = mem_6groups_eff.HDI_x6;
     eff_6groups_mu  = mem_6groups_eff.mu_x6;
     figure(21)
-
+    set(gcf, 'Position', [200 400 350 290]); % 
 else
     eff_6groups_HDI = perc_6groups_eff.HDI_x6;
     eff_6groups_mu  = perc_6groups_eff.mu_x6;
     figure(22)
+    set(gcf, 'Position', [200 100 350 290]); % 
 end
-
-set(gcf, 'Position', [800 300 350 290]); % 
 
 hold('on');
 hold('all');
@@ -107,7 +105,7 @@ else
 end
 end
 
-%% Next plot the doamins-generality for local metacognision using 6 age groups dervied from group_Corr
+%% Next plot the domain-generality for local metacognision using 6 age groups dervied from group_Corr
 
 load local_DGefficiency_fits
 figure(24) 
@@ -273,17 +271,17 @@ x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
     figure(13) 
     y_var = fit_mem_all.d1; 
     y_limits = [0,3.4];
+    set(gcf, 'Position', [1200 400 190 245],'Color',[1,1,1]);
  elseif jj == 2 
     fig_filename = 'Fig1Cii_perc_dprime_on_age';
     domain = 2; 
     figure(14) 
     y_var = fit_perc_all.d1; 
     y_limits = [0,3.4];
+    set(gcf, 'Position', [1400 400 190 245],'Color',[1,1,1]);
 end
  
 % Draw figure
-set(gcf, 'Position', [800 400 190 245],'Color',[1,1,1]);
-
 box('off');
 hold('all');
 
