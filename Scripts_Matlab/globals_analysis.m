@@ -39,28 +39,34 @@ col = [[230, 10, 0]/255;... %Red
     domain = 1; % 1 for mem, 2 for perc
     figure(41) 
     y_var = partics.PreMem; 
+    % Draw figure
+set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
  elseif jj == 2 
     fig_filename = 'Fig4Aii_mem_post_on_age';
     glm_filename = 'glm_Fig4Aii';
     domain = 1; 
     figure(42) 
     y_var = partics.PostMem; 
+    % Draw figure
+  set(gcf, 'Position', [350 400 240 245],'Color',[1,1,1]);
  elseif jj == 3 
     fig_filename = 'Fig4Aiii_perc_pre_on_age';
     glm_filename = 'glm_Fig4Aiii';
     domain = 2; 
     figure(43) 
      y_var = partics.PrePerc; 
+  set(gcf, 'Position', [100 100 240 245],'Color',[1,1,1]);
  elseif jj == 4 
     fig_filename = 'Fig4Aiv_perc_post_on_age';
     glm_filename = 'glm_Fig4Aiv';
     domain = 2; 
     figure(44) 
     y_var = partics.PostPerc; 
+  set(gcf, 'Position', [350 100 240 245],'Color',[1,1,1]);
  end
 
     elseif jj >4 % then the 4 plots of difficulty staircase level
-    x_label = 'diffciulty level (a.u.)';
+    x_label = 'difficulty level (a.u.)';
  if jj == 5
     fig_filename = 'Fig4BAi_mem_pre_on_diff';
     glm_filename = 'glm_Fig4Bi';
@@ -71,6 +77,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
     y_var = partics.PreMem; 
+    set(gcf, 'Position', [600 400 240 245],'Color',[1,1,1]);
  elseif jj == 6 
     fig_filename = 'Fig4Bii_mem_post_on_diff';
     glm_filename = 'glm_Fig4Bii';
@@ -81,6 +88,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
     y_var = partics.PostMem; 
+    set(gcf, 'Position', [600 100 240 245],'Color',[1,1,1]);
  elseif jj == 7 
     fig_filename = 'Fig4Biii_perc_pre_on_diff';
     glm_filename = 'glm_Fig4Biii';
@@ -91,6 +99,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
     y_var = partics.PrePerc; 
+    set(gcf, 'Position', [850 400 240 245],'Color',[1,1,1]);
  elseif jj == 8 
     fig_filename = 'Fig4Biv_perc_post_on_diff';
     glm_filename = 'glm_Fig4Biv';
@@ -101,6 +110,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc; 
+    set(gcf, 'Position', [850 100 240 245],'Color',[1,1,1]);
  elseif jj == 9
     fig_filename = 'Globalnotplotted_mem_update_on_age';
     glm_filename = 'glm_Globalnotplotted_mem_update_on_age';
@@ -112,6 +122,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = partics.PostMem-partics.PreMem; 
     y_limits = [-10,10];
+    set(gcf, 'Position', [1400 200 240 245],'Color',[1,1,1]);
  elseif jj == 10
     fig_filename = 'Globalnotplotted_perc_update_on_age';
     glm_filename = 'glm_Globalnotplotted_perc_update_on_age';
@@ -123,6 +134,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc;    
     y_limits = [-10,10];
+    set(gcf, 'Position', [1420 200 240 245],'Color',[1,1,1]);
  elseif jj == 11
     fig_filename = 'Globalnotplotted_mem_update_on_diff';
     glm_filename = 'glm_Globalnotplotted_mem_update_on_diff';
@@ -134,6 +146,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = partics.PostMem-partics.PreMem; 
     y_limits = [-10,10];
+    set(gcf, 'Position', [1440 200 240 245],'Color',[1,1,1]);
  elseif jj == 12
     fig_filename = 'Globalnotplotted_perc_update_on_diff';
     glm_filename = 'glm_Globalnotplotted_perc_update_on_diff';
@@ -145,6 +158,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
     y_limits = [-10,10];
+    set(gcf, 'Position', [1460 200 240 245],'Color',[1,1,1]);
  elseif jj == 13
     fig_filename = 'Globalnotplotted_percmean_on_memmean';
     glm_filename = 'glm_Globalnotplotted_percmean_on_memmean';
@@ -156,6 +170,7 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = (partics.PostPerc+partics.PrePerc)/2; 
     y_limits = [0,12];
+    set(gcf, 'Position', [1480 200 240 245],'Color',[1,1,1]);
  elseif jj == 14
     fig_filename = 'Globalnotplotted_update_perc_on_mem';
     glm_filename = 'glm_Globalnotplotted_update_perc_on_mem';
@@ -167,12 +182,11 @@ col = [[230, 10, 0]/255;... %Red
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
     y_limits = [-10,10];
+    set(gcf, 'Position', [1500 200 240 245],'Color',[1,1,1]);
+    % Draw figure
  else
  end
 end
-
-% Draw figure
-set(gcf, 'Position', [800 400 240 245],'Color',[1,1,1]);
 
 box('off');
 hold('all');
