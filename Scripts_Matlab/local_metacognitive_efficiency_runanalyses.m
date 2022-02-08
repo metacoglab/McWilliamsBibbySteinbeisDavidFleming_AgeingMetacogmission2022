@@ -140,7 +140,7 @@ clear domain
 % as described in Hamilton et al (2021)
 
 load('outputs_memory.mat') % Get the possible predictors from memory and perception performance
-oad('outputs_perception.mat')
+load('outputs_perception.mat')
 
 for domain = 1:2 % First memory then perception
     clear nR_S1
@@ -192,9 +192,9 @@ clear nR_S1
 clear nR_S2
 clear fit
 clear HRegression
-
+clear cov
 end
-
+clear domain
 
 %% Next, estimate the correlation covariance between memory and 
 % perception within individuals using the hierarchical model
