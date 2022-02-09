@@ -183,12 +183,12 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 3; 
     figure(56) 
     x_var = partics.PostMem-partics.PreMem; 
-    x_label = 'memory difficulty level (a.u.)';
+    x_label = 'memory confidence';
     x_limits = [-10,10];
     x_ticks = -10:5:10;
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
-    y_label = 'perception difficulty level (a.u.)';
+    y_label = 'perception confidence';
     y_limits = [-10,10];
     set(gcf, 'Position', [1500 200 240 245],'Color',[1,1,1]);
     % Draw figure
