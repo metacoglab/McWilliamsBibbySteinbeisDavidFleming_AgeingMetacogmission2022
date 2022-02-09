@@ -1,4 +1,4 @@
-%% globals_analysis
+%% globals_analysis_Feb22
 % This produces the plots in Figure 4, 
 % as well as the regressions and t-tests reported in the manuscript text
 % The final plots (Figures 51-6) are not drawn in the manusctipt, but are reported only
@@ -116,7 +116,8 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     glm_filename = 'glm_Globalnotplotted_mem_update_on_age';
     domain = 1; % 1 for mem, 2 for perc
     figure(51) 
-    x_var = age_single; 
+    x_var = age_single;
+    x_label = 'age group (years)'; 
     x_limits = [17.8 85];
     x_ticks = 20:10:80;
     x_ticklabels = x_ticks;
@@ -129,6 +130,7 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 2; 
     figure(52) 
     x_var = age_single; 
+    x_label = 'age group (years)'; 
     x_limits = [17.8 85];
     x_ticks = 20:10:80;
     x_ticklabels = x_ticks;
@@ -141,6 +143,7 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 1; % 1 for mem, 2 for perc
     figure(53) 
     x_var = mem_output_variables.difflevel; % plots on staircase mean difficulty level
+    x_label = 'difficulty level (a.u.)';
     x_limits = [0,12];
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
@@ -153,6 +156,7 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 2; 
     figure(54) 
     x_var = perc_output_variables.difflevel; % plots on staircase mean difficulty level
+    x_label = 'difficulty level (a.u.)';
     x_limits = [0,15];
     x_ticks= [0;2;4;6;8;10;12;14];
     x_ticklabels = x_ticks;
@@ -165,10 +169,12 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 3; % 1 for mem, 2 for perc
     figure(55) 
     x_var = (partics.PostMem+partics.PreMem)/2;
+    x_label = 'memory confidence';
     x_limits = [0,12];
     x_ticks = 0:2:12;
     x_ticklabels = x_ticks;
     y_var = (partics.PostPerc+partics.PrePerc)/2; 
+    y_label = 'perception confidence';
     y_limits = [0,12];
     set(gcf, 'Position', [1480 200 240 245],'Color',[1,1,1]);
  elseif jj == 14
@@ -177,10 +183,12 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 3; 
     figure(56) 
     x_var = partics.PostMem-partics.PreMem; 
+    x_label = 'memory difficulty level (a.u.)';
     x_limits = [-10,10];
     x_ticks = -10:5:10;
     x_ticklabels = x_ticks;
     y_var = partics.PostPerc-partics.PrePerc; 
+    y_label = 'perception difficulty level (a.u.)';
     y_limits = [-10,10];
     set(gcf, 'Position', [1500 200 240 245],'Color',[1,1,1]);
     % Draw figure
