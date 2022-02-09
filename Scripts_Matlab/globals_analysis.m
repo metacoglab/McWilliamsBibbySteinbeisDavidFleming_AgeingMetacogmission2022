@@ -117,7 +117,7 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 1; % 1 for mem, 2 for perc
     figure(51) 
     x_var = age_single;
-    x_label = 'age group (years)'; 
+    x_label = 'age (years)'; 
     x_limits = [17.8 85];
     x_ticks = 20:10:80;
     x_ticklabels = x_ticks;
@@ -130,7 +130,7 @@ set(gcf, 'Position', [100 400 240 245],'Color',[1,1,1]);
     domain = 2; 
     figure(52) 
     x_var = age_single; 
-    x_label = 'age group (years)'; 
+    x_label = 'age (years)'; 
     x_limits = [17.8 85];
     x_ticks = 20:10:80;
     x_ticklabels = x_ticks;
