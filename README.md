@@ -2,7 +2,7 @@ This repository contains analysis code for the following paper:
 
 McWilliams, Bibby, Steinbeis, David and Fleming (2022)
 
-Data and analysis files were too large to store on github, so are at on the Open Science Framework at https://osf.io/6t7fn/files/ and must be downloaded to your computer using the button near the top right.
+Data and analysis outputs required for generatying the fugures are included.
 
 The hierarchical modelling requires JAGS, which seems to run best in version 3.4.0, as compatability issues can occur with later versions. More information about hierarchical estimation of metacognitive efficiency can be found at (https://github.com/metacoglab/HMeta-d) (Fleming, 2017).
 
