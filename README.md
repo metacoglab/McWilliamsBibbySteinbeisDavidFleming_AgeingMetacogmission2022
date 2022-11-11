@@ -19,7 +19,10 @@ Instead of using the processed data files, you can use this script to process yo
 metacognitive data (one for memory, one for perception), excluding bad trials (according to our pre-registered criteria) and returning the 2 processed data files. Additionally, it also derives simple metrics of performance and of metacognitive bias (mean confidence on rating trial-by-trial performance), before re-packaging the trial-by-trial confidence rating data for the hierarchical Bayesian analyses undertaken in later scripts. This requires the helper function trials2counts.
 
 first_order_task_performance
-This draws the plots in Figure 1B and 1D. (Figure 1C is not be plotted here as it requires the d-prime outputs from the analyses of local metacognitive efficiency, so it undertaken in that script)
+This draws the plots in Figure 1B and 1D. (Figure 1C is not be plotted here as it requires the d-prime outputs from the analyses of local metacognitive efficiency, so it undertaken in that script).
+
+supplementary_figure
+This plots the supplementary figure, displaying standard deviations of raw trial-by-trial confidence ratings.
 
 local_metacognitive_efficiency_plotting
 This loads the hierarchical analyses and generates the plots of Figure 2 and Figure 1C.
@@ -28,7 +31,7 @@ local_metacognitive_efficiency_runanalyses
 You can run the hierarchical analyses themselves here, though this code does not produce any images. It involves using JAGS and a number of helper functions and text files, as explained in the toolbox (https://github.com/metacoglab/HMeta-d). When set run on a university computer in 2022, it needs to be left overnight to generate all the outputs. These are the ones loaded up and plotted by local_metacognitive_efficiency_plotting
 
 bias_analysis
-This produces the plots shown in Figure 3
+This produces the plots shown in Figure 3.
 
 globals_analysis
 This produces the plots in Figure 4, as well as the regressions reported in the manuscript text.
