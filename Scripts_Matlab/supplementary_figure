@@ -1,0 +1,204 @@
+%% supplementary_figure
+% This produces the plots in the supplementary figure 
+% presenting participant variability in trial-by-trial confidence ratings
+% by age
+
+% Get colour scheme
+col = [[230, 10, 0]/255;... %Red
+    [51, 140, 255]/255;... %Blue
+    [60,179,113]/255;...%Green
+    [255, 204, 204]/255;...%Light Red
+    [100, 220, 255] / 255;...%Light Blue
+    [152,251,152]/255;... %Light Green
+    [85,107,47]/255];%Deep Green
+
+load ParticDemogs_and_globals
+load outputs_memory
+load Processed_data_memoryMetacogmission
+load outputs_perception
+load Processed_data_perceptionMetacogmission
+load age_means_by_group
+age_single = Partics_and_globals.age_single;
+age_group = Partics_and_globals.age_group;
+
+numsubj = 304;
+
+for domain = 1:2; 
+if domain ==1; % for memory
+    data_set= data_set_mem;
+else data_set= data_set_perc;
+% Calculate standard deviation of trial-by-trail local metacognitive ratings
+end
+for kk=1:numsubj 
+    confstd(kk)=std(data_set.confidence(data_set.cohort_ID ==kk));
+end
+clear kk
+
+%% Re-names the outputs accord to domain
+if domain == 1
+    memory_confstd = confstd;
+else perc_confstd = confstd;
+end
+    clear confstd
+    clear data_set  
+end
+clear domain
+
+% Set the parameters and choose the domain
+domain =1;
+while domain<3
+    x_var = age_single; % plots on age first
+    x_limits = [17.8 85];
+    x_ticks = age_groupmeans;
+    x_ticklabels = [{'18-27'},{'28-37'},{'38-47'},{'48-57'},{'58-67'},{'68+'}];
+    y_limits = [0,101];
+    x_label ='age(years)';
+    y_label ='confidence standard deviation';
+ if domain == 1
+    fig_filename = 'FigSupp1_mem_confstd_on_age';
+    glm_filename = 'glm_FigSupp1';
+    figure(101) 
+    y_var = memory_confstd; 
+    set(gcf, 'Position', [200 500 597 450],'Color',[1,1,1]);
+ else 
+    fig_filename = 'FigSupp2_perc_confstd_on_age';
+    glm_filename = 'glm_Fig3Supp2';
+    figure(102) 
+    y_var = perc_confstd; 
+    set(gcf, 'Position', [200 20 597 450],'Color',[1,1,1]);
+end
+% Draw figure
+
+box('off');
+hold('all');
+
+%% Scatter plot the data
+scatter ( x_var, y_var, 12, 'MarkerEdgeColor', col(domain+3, :),'MarkerFaceColor', col(domain+3, :));
+hold on
+
+%% Add means for the 6 age groups
+for kk = 1:6
+y_group_means(kk) = mean (y_var(age_group==kk)); % mean of the metric within each age group
+y_group_std(kk) = std (y_var(age_group==kk));
+end
+clear kk
+
+plot (age_groupmeans, y_group_means, '-o',...
+    'color', col(domain,:),...
+    'LineWidth',4,...
+    'MarkerSize',8,...
+    'MarkerEdgeColor',col(domain,:),...
+    'MarkerFaceColor',col(domain,:));
+
+%% Add s.d.s for the 6 age groups
+for kk = 1:6
+    clear line_for_std
+line_for_std = line([age_groupmeans(kk),age_groupmeans(kk)],...
+    [y_group_means(kk)- y_group_std(kk),...
+    y_group_means(kk)+ y_group_std(kk)]);
+    set(line_for_std,'Color',col(domain,:),'LineWidth',4);
+hold on
+end
+clear kk
+
+% GLM fitting and Add regression curve if wanted
+cov = horzcat(normalize(x_var)); % normalise for the regression, though not for the plots
+[b,dev,stats]= glmfit(cov,normalize(y_var), 'normal');
+
+% Un-normalised version of glmfit for plots
+[b_unnorm,dev_unnorm,stats_unnorm]= glmfit(x_var,y_var, 'normal');
+hold on
+polycoeffs = stats_unnorm.beta'; % coefficients of the fitted polynomial derived from glmfit
+fittedcurve = polycoeffs(1) + polycoeffs(2).*x_limits; 
+plot(x_limits, fittedcurve, 'k', 'LineWidth', 2);   
+ 
+hold('all');
+
+%% Saving
+% glm_outputs.b = b(:);
+% glm_outputs.sem = stats.se(:);
+% glm_outputs.p = stats.p(:);
+% clear glm_outputs
+
+% Make the text box for betas and p-values
+   dim = [.8 .55 .9 .3]; % Now make text labels with betas and their p values
+
+ if stats.p(2) >0.0001 
+    annotation('textbox',dim,'String',sprintf('b = %.2f \np = %.2g',b(2),stats.p(2)) ,'FitBoxToText','on');
+ else
+    annotation('textbox',dim,'String',sprintf('b = %.2f \np < 0.0001',b(2)) ,'FitBoxToText','on');
+ end
+
+clear b
+clear dev
+clear stats
+clear b_unnorm
+clear dev_unnorm
+clear stats_unnorm
+
+xlabel(x_label)
+ylabel(y_label)
+
+%% Set axes
+axh = gca;
+axh.FontSize = 10;
+axh.FontName = 'Arial';
+axh.XTick = x_ticks;
+axh.XTickLabel = x_ticklabels;
+axh.YRuler.TickLabelGapOffset = -1;
+% set(axh,'LooseInset',get(axh,'TightInset'));
+
+xtickangle(45)
+xlim(x_limits)
+ylim(y_limits)
+
+% Tighten up margins
+ tightInset = get(gca, 'TightInset');
+position(1) = tightInset(1);
+position(2) = tightInset(2);
+position(3) = 1 - tightInset(1) - tightInset(3);
+position(4) = 1 - tightInset(2) - tightInset(4);
+set(axh, 'Position', position);
+
+% savefig (gcf,fig_filename) %  now save the figures if wanted 
+% saveas(gcf,fig_filename, 'pdf') % save pdf version if wanted
+clear fig_filename
+
+clear line_for_std
+clear fittedcurve
+clear tightInset  
+clear polycoeffs
+clear position
+clear cov
+clear x_var
+clear y_var
+% clear b_print
+% clear p_print
+
+domain = domain+1;
+  end
+clear domain
+clear axh
+
+clear glm_filename
+clear glm_outputs
+clear cov
+clear b
+clear dev
+clear stats
+clear b_unnorm
+clear dev_unnorm
+clear stats_unnorm
+clear axh  
+ % savefig (gcf,fig_filename) % now save the figure if required
+ % saveas(gcf,fig_filename, 'pdf') 
+clear fig_filename     
+
+clear x_label
+clear x_limits
+clear x_ticklabels
+clear x_ticks
+clear y_group_means
+clear y_group_std
+clear y_label
+clear y_limits
