@@ -1,6 +1,7 @@
 This repository contains analysis code for the following paper:
 
-McWilliams, Bibby, Steinbeis, David and Fleming (2022)
+Age-related decreases in global metacognition are independent of local metacognition and task performance 
+McWilliams, Bibby, Steinbeis, David and Fleming (2023) Cognition
 
 Data and analysis outputs required for generatying the fugures are included.
 
